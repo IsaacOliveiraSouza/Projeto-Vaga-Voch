@@ -27,6 +27,10 @@ Route::prefix('grupo-economico')->name('grupo-economico.')->controller(GrupoEcon
     Route::delete('/{id}/destroy', 'destroy')
         ->name('destroy')
     ;
+    Route::get('/{id}/confirm-delete', 'confirmDelete')
+        ->name('confirm-delete')
+    ;
+    
 });
 
 Route::prefix('bandeira')->name('bandeira.')->controller(BandeiraController::class)->group(function () {

@@ -7,6 +7,7 @@ use App\Services\GrupoEconomicoService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 
 class GrupoEconomicoController extends Controller
 {
@@ -31,6 +32,13 @@ class GrupoEconomicoController extends Controller
         $grupoeconomico = $this->service->findById(id: $id);
         return view(view: 'grupo-economico.edit', data: compact(var_name: 'grupoeconomico'));
     }
+public function confirmDelete(int $id): Response
+{
+    $grupo = GrupoEconomico::findOrFail($id); // Garante que $grupo existe
+    $view = view('grupo-economico.delete', compact('grupo'))->render(); // Passa o grupo pra view
+
+    return response($view);
+}
     
     public function store(Request $request): RedirectResponse
     {
