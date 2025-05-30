@@ -14,9 +14,24 @@ class ColaboradorRepository
     {
         return $this->model->get();
     }
-    public function paginate(int $perPage = 10): LengthAwarePaginator
+
+    public function filter(array $filtro, int $perPage = 10, int $page = 1): LengthAwarePaginator
     {
-        return $this->model->paginate(perPage: $perPage);
+        return $this->model->query()
+            ->when(data_get($filtro, 'colaboradorId'), fn($q) => $q->whereIn('id', $filtro['colaboradorId']))
+            ->when(data_get($filtro, 'unidadeId'), fn($q) => $q->whereIn('unidade_id', $filtro['unidadeId']))
+            ->when(data_get($filtro, 'bandeiraId'), function ($q) use ($filtro) {
+                $q->whereHas('unidade', fn($q) => $q->whereIn('bandeira_id', $filtro['bandeiraId']));
+            })
+            ->when(data_get($filtro, 'grupoEconomicoId'), function ($q) use ($filtro) {
+                $q->whereHas('unidade.bandeira', fn($q) => $q->whereIn('grupo_economico_id', $filtro['grupoEconomicoId']));
+            })
+            ->paginate(perPage: $perPage, page: $page);
+    }
+
+    public function paginate(int $perPage = 10, int $page = 1): LengthAwarePaginator
+    {
+        return $this->model->paginate(perPage: $perPage, page: $page);
     }
     public function findById(int $id): Colaborador
     {

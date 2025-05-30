@@ -15,8 +15,9 @@ class Colaborador extends Model
         'cpf',
         'unidade_id'
     ];
-    
-    public function Unidade(){
-        return $this->hasMany(Unidade::class);
+
+    public function unidade()
+    {
+        return $this->belongsTo(Unidade::class);
     }
 }

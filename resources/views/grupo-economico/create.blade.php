@@ -12,7 +12,7 @@
                         </header>
                         <form method="post" action="{{ route('grupo-economico.store') }}" class="mt-6 space-y-6">
                             @csrf
-                            <div> <x-input-label for="nome" :value="__('Nome')" /> <x-text-input id="nome"
+                            <div> <x-input-label for="nome" :value="__('ID Externo')" /> <x-text-input id="nome"
                                     name="nome" type="text" class="mt-1 block w-full" :value="old('nome')" required />
                                 <x-input-error class="mt-2" :messages="$errors->get('nome')" />
                             </div>

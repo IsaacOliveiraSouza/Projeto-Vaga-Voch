@@ -14,9 +14,19 @@ class BandeiraRepository
     {
         return $this->model->get();
     }
-    public function paginate(int $perPage = 10): LengthAwarePaginator
+
+    public function filter(array $filtro, int $perPage = 10, int $page = 1): LengthAwarePaginator
     {
-        return $this->model->paginate(perPage: $perPage);
+        return $this->model->query()
+            ->when(data_get($filtro, 'grupoEconomicoId'), fn($q) => $q->whereIn('grupo_economico_id', $filtro['grupoEconomicoId']))
+            ->paginate(perPage: $perPage, page: $page);
+    }
+
+
+
+    public function paginate(int $perPage = 10, int $page = 1): LengthAwarePaginator
+    {
+        return $this->model->paginate(perPage: $perPage, page: $page);
     }
     public function findById(int $id): Bandeira
     {
@@ -37,4 +47,5 @@ class BandeiraRepository
         $account = $this->findById(id: $id);
         return $account->delete();
     }
+    
 }

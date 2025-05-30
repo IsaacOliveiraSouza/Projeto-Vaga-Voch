@@ -14,12 +14,14 @@ class Bandeira extends Model
         'nome',
         'grupo_economico_id'
     ];
-    
-    public function grupoeconomico(){
-        return $this->hasMany(GrupoEconomico::class);
+
+    public function grupoEconomico()
+    {
+        return $this->belongsTo(GrupoEconomico::class);
     }
 
-    public function Unidades(){
+    public function Unidades()
+    {
         return $this->belongsTo(Unidade::class);
     }
 }

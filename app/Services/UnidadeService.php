@@ -15,9 +15,9 @@ class UnidadeService
     {
         return $this->repository->all();
     }
-    public function getPaginate(int $perPage = 10): LengthAwarePaginator
+    public function getPaginate(int $perPage = 10, int $page = 1): LengthAwarePaginator
     {
-        return $this->repository->paginate(perPage: $perPage);
+        return $this->repository->paginate(perPage: $perPage, page: $page);
     }
     public function findById(int $id): Unidade
     {

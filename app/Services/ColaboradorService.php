@@ -15,9 +15,15 @@ class ColaboradorService
     {
         return $this->repository->all();
     }
-    public function getPaginate(int $perPage = 10): LengthAwarePaginator
+
+    public function filter(array $filtro, int $perPage = 10, int $page = 1): LengthAwarePaginator
     {
-        return $this->repository->paginate(perPage: $perPage);
+        return $this->repository->filter(filtro: $filtro, perPage: $perPage, page: $page);
+    }
+
+    public function getPaginate(int $perPage = 10, int $page = 1): LengthAwarePaginator
+    {
+        return $this->repository->paginate(perPage: $perPage, page: $page);
     }
     public function findById(int $id): Colaborador
     {

@@ -15,13 +15,14 @@ class Unidade extends Model
         'cnpj',
         'bandeira_id'
     ];
-    
-    public function bandeira(){
-        return $this->hasMany(Bandeira::class);
+
+    public function bandeira()
+    {
+        return $this->belongsTo(Bandeira::class);
     }
 
-
-    public function colaboradores(){
-        return $this->belongsTo(Colaborador::class);
+    public function colaboradores()
+    {
+        return $this->hasMany(Colaborador::class);
     }
 }

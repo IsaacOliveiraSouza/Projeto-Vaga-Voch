@@ -15,6 +15,21 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('grupo-economico.index')" :active="request()->routeIs('grupo-economico.index')">
+                        {{ __('Grupos Economicos') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('bandeira.index')" :active="request()->routeIs('bandeira.index')">
+                        {{ __('Bandeiras') }}
+                    </x-nav-link>                    
+                    
+                    <x-nav-link :href="route('unidade.index')" :active="request()->routeIs('unidade.index')">
+                        {{ __('Unidades') }}
+                    </x-nav-link>
+                    
+                    <x-nav-link :href="route('colaborador.index')" :active="request()->routeIs('grupo-economico.index')">
+                        {{ __('Colaboradores') }}
+                    </x-nav-link>
                 </div>
             </div>
 
