@@ -3,6 +3,7 @@
 namespace App\Livewire\Unidade;
 
 use App\Models\Unidade;
+use App\Rules\CnpjValido;
 use App\Services\UnidadeService;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -50,7 +51,7 @@ class ModalUnidade extends Component
         $this->validate([
             'nomeFantasia' => 'required|string|max:255',
             'razaoSocial' => 'required|string|max:255',
-            'cnpj' => 'required|string|max:255',
+            'cnpj' => ['required', new CnpjValido()],
         ]);
 
         try {
