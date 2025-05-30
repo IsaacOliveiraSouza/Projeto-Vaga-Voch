@@ -1,61 +1,125 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 💼 Teste Prático para Desenvolvedor Full Stack - VochTech
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este é um sistema completo para gestão de grupos econômicos, suas bandeiras, unidades e colaboradores. Desenvolvido com Laravel 12, Livewire 3 e MySQL. 🚀
 
-## About Laravel
+## ✨ Funcionalidades
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- 🏢 CRUD completo de *Grupos Econômicos*
+- 🏳️ CRUD completo de *Bandeiras* (associadas a Grupos Econômicos)
+- 🏬 CRUD completo de *Unidades* (associadas a Bandeiras)
+- 👥 CRUD completo de *Colaboradores* (associados a Unidades)
+- 📊 Sistema de *relatórios filtráveis* de colaboradores
+<!---- - 📁 Exportação de relatórios para *Excel*!-->
+- 🔐 *Autenticação de usuários*
+<!--- 🕵️ *Auditoria* completa (quem alterou, quando e o que)!-->
+- ⚡ *Livewire 3* e *WireUI* para interações dinâmicas e responsivas
+- 🎨 Interface moderna e experiência do usuário aprimorada
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Tecnologias Utilizadas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- 🐘 PHP 8.2+
+- 🌐 Laravel 12.x
+- ⚡ Livewire 3.x
+- 🧩 WireUI 2.x
+- 🔐 Laravel Breeze (autenticação)
+- 🐳 Laravel Sail (ambiente Docker)
+- 🗄️ MySQL
+<!-- - 📤 Laravel Excel (para exportação)
+- 📜 Laravel Activity Log (logs)!-->
 
-## Learning Laravel
+## 🚧 Instalação
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. 🧬 Clonar o repositório
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+bash
+git clone https://github.com/IsaacOliveiraSouza/Projeto-Vaga-Voch.git
+cd Projeto-Vaga-Voch
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+### 2. 📝 Copiar arquivo de ambiente
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+bash
+cp .env.example .env
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 3. 📦 Instalar dependências com Docker (Laravel Sail)
 
-## Contributing
+bash
+docker run --rm     
+-u "$(id -u):$(id -g)"     
+-v "$(pwd):/var/www/html"     
+-w /var/www/html"     
+laravelsail/php84-composer:latest     
+composer install --ignore-platform-reqs
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+### 4. 🧱 Subir os containers
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+bash
+./vendor/bin/sail up --build -d
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. 📥 Instalar dependências do backend e frontend
 
-## License
+bash
+./vendor/bin/sail composer install
+./vendor/bin/sail npm install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+### 6. 🔑 Gerar a chave da aplicação
+
+bash
+./vendor/bin/sail artisan key:generate
+
+
+### 7. 🧬 Rodar as migrações
+
+bash
+./vendor/bin/sail artisan migrate
+
+
+### 8. 🌱 Popular base de dados com dados mínimos (opcional)
+
+bash
+./vendor/bin/sail artisan db:seed
+
+
+### 9. 🖥️ Iniciar o servidor de desenvolvimento
+
+bash
+./vendor/bin/sail npm run dev
+
+<!-- 
+## 📊 Relatórios
+
+Acesse o menu *"Colaboradores"*, clique em exportar para gerar uma tabela detalhada dos colaboradores com filtros por:
+
+- 🔤 Nome  
+- 🧾 CPF  
+- 🏬 Unidade  
+- 🏳️ Bandeira  
+- 🏢 Grupo Econômico
+
+A tabela pode ser exportada para *Excel* 📥
+
+## 🕵️ Auditoria
+
+Todas as ações de criação, edição e exclusão são registradas com:
+
+- 👤 Nome do usuário que realizou a ação  
+- 🕒 Data e hora  
+- 🛠️ Tipo da ação  
+- 🧱 Entidade alterada  
+- 🔄 Dados antigos e novos (se aplicável)
+
+## ⚙️ Fila
+
+Para processar tarefas em segundo plano como exportações:
+
+bash
+./vendor/bin/sail artisan queue:work
+
+!-->
+---
+
+Desenvolvido por Isaac Oliveira Souza. 👨‍💻
