@@ -7,6 +7,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Spatie\Activitylog\Facades\Activity;
 
 class TabelaBandeira extends Component
 {
@@ -58,7 +59,17 @@ public function bandeiras(): LengthAwarePaginator
     public function deleteBandeira(int $id): void
     {
         try {
+             $bandeira = $this->service->findById($id);
             $this->service->delete($id);
+
+             Activity::performedOn($bandeira)
+                ->causedBy(auth()->user())
+                ->withProperties([
+                    'nome' => $bandeira->nome,
+                    'grupo_economico_id' => $bandeira->grupo_economico_id,
+                ])
+                ->log('Excluiu uma bandeira');
+
             $this->dispatch('notify', message: 'Bandeira excluída com sucesso', variant: 'success', title: 'Sucesso');
         } catch (\Throwable $th) {
             $this->dispatch('notify', message: 'Erro ao excluir bandeira', variant: 'danger', title: 'Erro');

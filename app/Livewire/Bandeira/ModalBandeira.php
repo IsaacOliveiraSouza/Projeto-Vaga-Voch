@@ -6,6 +6,7 @@ use App\Services\BandeiraService;
 use App\Models\Bandeira;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Spatie\Activitylog\Facades\Activity;
 
 class ModalBandeira extends Component
 {
@@ -22,10 +23,17 @@ class ModalBandeira extends Component
     public function updateBandeira(): void
     {
         try {
-            $this->service->update($this->bandeira->id, [
+            $bandeira = $this->service->update($this->bandeira->id, [
                 'nome' => $this->nome,
                 'grupo_economico_id' => $this->grupoEconomicoId,
             ]);
+             Activity::performedOn($bandeira)
+                ->causedBy(auth()->user())
+                ->withProperties([
+                    'nome' => $bandeira->nome,
+                    'grupo_economico_id' => $bandeira->grupo_economico_id,
+                ])
+                ->log('Atualizou uma bandeira');
 
             $this->reset([
                 'nome',
@@ -54,10 +62,19 @@ class ModalBandeira extends Component
                 return;
             }
 
-            $this->service->create([
+            $bandeira = $this->service->create([
                 'nome' => $this->nome,
                 'grupo_economico_id' => $this->grupoEconomicoId,
             ]);
+
+            
+            Activity::performedOn($bandeira)
+            ->causedBy(auth()->user())
+            ->withProperties([
+                'nome' => $bandeira->nome,
+                'grupo_economico_id' => $bandeira->grupo_economico_id,
+            ])
+            ->log('Criou uma nova bandeira');
 
             $this->reset([
                 'nome',

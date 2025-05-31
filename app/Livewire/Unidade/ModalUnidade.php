@@ -7,6 +7,7 @@ use App\Rules\CnpjValido;
 use App\Services\UnidadeService;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Spatie\Activitylog\Facades\Activity;
 
 class ModalUnidade extends Component
 {
@@ -30,13 +31,23 @@ class ModalUnidade extends Component
     public function updateUnidade(): void
     {
         try {
-            $this->service->update($this->unidade->id, [
+            $unidade = $this->service->update($this->unidade->id, [
                 'nome_fantasia' => $this->nomeFantasia,
                 'razao_social' => $this->razaoSocial,
                 'cnpj' => $this->cnpj,
                 'bandeira_id' => $this->bandeiraId,
             ]);
 
+                Activity::performedOn($unidade)
+                ->causedBy(auth()->user())
+                ->withProperties([
+                    'nome_fantasia' => $unidade->nomeFantasia,
+                    'razao_social' => $unidade->razaoSocial,
+                    'cnpj' => $unidade->cnpj,
+                    'bandeira_id' => $unidade->bandeira_id,
+                ])
+                ->log('Atualizou uma unidade');
+                
             $this->resetForm();
             $this->dispatch('close-modal', name: 'modal-unidade');
             $this->dispatch('refresh-table')->to(TabelaUnidade::class);
@@ -60,12 +71,22 @@ class ModalUnidade extends Component
                 return;
             }
 
-            $this->service->create([
+            $unidade = $this->service->create([
                 'nome_fantasia' => $this->nomeFantasia,
                 'razao_social' => $this->razaoSocial,
                 'cnpj' => $this->cnpj,
                 'bandeira_id' => $this->bandeiraId,
             ]);
+
+            Activity::performedOn($unidade)
+                ->causedBy(auth()->user())
+                ->withProperties([
+                    'nome_fantasia' => $unidade->nomeFantasia,
+                    'razao_social' => $unidade->razaoSocial,
+                    'cnpj' => $unidade->cnpj,
+                    'bandeira_id' => $unidade->bandeira_id,
+                ])
+                ->log('Criou uma unidade');
 
             $this->resetForm();
             $this->dispatch('close-modal', name: 'modal-unidade');

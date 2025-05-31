@@ -45,7 +45,19 @@ class TabelaUnidade extends Component
     public function deleteUnidade(int $id): void
     {
         try {
+            $unidade = $this->service->findById(id: $id);
             $this->service->delete(id: $id);
+
+                Activity::performedOn($unidade)
+                ->causedBy(auth()->user())
+                ->withProperties([
+                    'nome_fantasia' => $unidade->nome_fantasia,
+                    'razao_social' => $unidade->razao_social,
+                    'cnpj' => $unidade->cnpj,
+                    'bandeira_id' => $unidade->bandeira_id,
+                ])
+                ->log('Excluiu uma unidade');
+
             $this->dispatch('refresh-table')->to(TabelaUnidade::class);
             $this->dispatch('notify', message: 'Unidade excluída com sucesso', variant: 'success', title: 'Sucesso');
         } catch (\Throwable $th) {
