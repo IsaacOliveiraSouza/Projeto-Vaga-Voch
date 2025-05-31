@@ -7,6 +7,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Spatie\Activitylog\Facades\Activity;
 
 class TabelaGrupoEconomico extends Component
 {
@@ -59,7 +60,16 @@ class TabelaGrupoEconomico extends Component
     public function deleteGrupoEconomico(int $id): void
     {
         try {
-            $this->service->delete($id);
+            $grupo = $this->service->findById(id: $id);
+             $this->service->delete($id);
+           
+            Activity::performedOn($grupo)
+                ->causedBy(auth()->user())
+                ->withProperties([
+                    'nome' => $grupo->nome
+                ])
+                ->log('Excluiu um Grupo Economido');
+
             $this->dispatch('notify', message: 'Grupo econômico excluído com sucesso', variant: 'success', title: 'Sucesso');
         } catch (\Throwable $th) {
             $this->dispatch('notify', message: 'Erro ao excluir grupo econômico', variant: 'danger', title: 'Erro');

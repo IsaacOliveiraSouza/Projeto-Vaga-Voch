@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Spatie\Activitylog\Facades\Activity;
 
 class TabelaColaborador extends Component
 {
@@ -61,7 +62,21 @@ class TabelaColaborador extends Component
     public function deleteColaborador(int $id): void
     {
         try {
+            
+            $colaborador = $this->service->findById(id: $id);
+
             $this->service->delete(id: $id);
+
+            Activity::performedOn($colaborador)
+                ->causedBy(auth()->user())
+                ->withProperties([
+                    'nome' => $colaborador->nome,
+                    'cpf' => $colaborador->cpf,
+                ])
+                ->log('Excluiu um colaborador');
+
+        
+
             $this->dispatch('refresh-table')->to(TabelaColaborador::class);
             $this->dispatch('notify', message: 'Colaborador excluído com sucesso', variant: 'success', title: 'Sucesso');
         } catch (\Throwable $th) {

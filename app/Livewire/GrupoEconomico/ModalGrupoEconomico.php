@@ -6,6 +6,7 @@ use App\Models\GrupoEconomico;
 use App\Services\GrupoEconomicoService;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Spatie\Activitylog\Facades\Activity;
 
 class ModalGrupoEconomico extends Component
 {
@@ -21,9 +22,16 @@ class ModalGrupoEconomico extends Component
     public function updateGrupoEconomico(): void
     {
         try {
-            $this->service->update($this->grupoEconomico->id, [
+            $grupo = $this->service->update($this->grupoEconomico->id, [
                 'nome' => $this->nome,
             ]);
+            
+            Activity::performedOn($grupo)
+                ->causedBy(auth()->user())
+                ->withProperties([
+                    'nome' => $grupo->nome
+                ])
+                ->log('Atualizou um colaborador');
 
             $this->resetForm();
             $this->dispatch('close-modal', name: 'modal-grupo-economico');
@@ -46,9 +54,13 @@ class ModalGrupoEconomico extends Component
                 return;
             }
 
-            $this->service->create([
+            $grupo = $this->service->create([
                 'nome' => $this->nome,
             ]);
+
+            Activity::performedOn($grupo)
+            ->causedBy(auth()->user())
+            ->log('Criou um novo grupo econômico');
 
             $this->resetForm();
             $this->dispatch('close-modal', name: 'modal-grupo-economico');
