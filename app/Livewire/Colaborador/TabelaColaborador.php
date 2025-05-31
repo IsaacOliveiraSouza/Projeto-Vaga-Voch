@@ -3,11 +3,15 @@
 namespace App\Livewire\Colaborador;
 
 use App\Services\ColaboradorService;
+use App\Models\Colaborador;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Spatie\Activitylog\Facades\Activity;
+use App\Exports\ColaboradoresExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class TabelaColaborador extends Component
 {
@@ -47,6 +51,25 @@ class TabelaColaborador extends Component
         ];
 
         return $this->service->filter(perPage: $this->perPage, page: $this->page, filtro: $this->filtros);
+    }
+
+   public function exportar(): BinaryFileResponse
+{
+    $filtro = $this->filtros;
+
+    $dados = Colaborador::query()
+        ->when(data_get($filtro, 'colaboradorId'), fn($q) => $q->whereIn('id', $filtro['colaboradorId']))
+        ->when(data_get($filtro, 'unidadeId'), fn($q) => $q->whereIn('unidade_id', $filtro['unidadeId']))
+        ->when(data_get($filtro, 'bandeiraId'), function ($q) use ($filtro) {
+            $q->whereHas('unidade', fn($q) => $q->whereIn('bandeira_id', $filtro['bandeiraId']));
+        })
+        ->when(data_get($filtro, 'grupoEconomicoId'), function ($q) use ($filtro) {
+            $q->whereHas('unidade.bandeira', fn($q) => $q->whereIn('grupo_economico_id', $filtro['grupoEconomicoId']));
+        })
+        ->get(['id', 'nome', 'email', 'cpf', 'unidade_id']);
+        // dd($dados);
+        //  Excel::queue(new ColaboradoresExport($dados), 'colaboradores.xlsx');
+            return Excel::download(new ColaboradoresExport($dados), 'colaboradores.xlsx');
     }
 
     public function editColaborador(int $id): void

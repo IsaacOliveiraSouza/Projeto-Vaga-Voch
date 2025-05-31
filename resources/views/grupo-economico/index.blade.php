@@ -13,9 +13,7 @@
                         </header>
                         <div class="flex flex-row-reverse gap-2">
                             <livewire:grupo-economico.modal-grupo-economico />
-                            <x-primary-button wire:click="$emitTo('grupo-economico.tabela-grupo-economico', 'Exportar')">
-                                {{ __('Exportar') }}
-                            </x-primary-button>
+                
                         </div>
                     </section>
                     <livewire:grupo-economico.tabela-grupo-economico />

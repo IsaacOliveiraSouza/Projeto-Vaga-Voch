@@ -97,6 +97,8 @@ class ModalColaborador extends Component
         }
     }
 
+
+
     #[On('edit-colaborador')]
     public function editColaborador(Colaborador $colaborador): void
     {

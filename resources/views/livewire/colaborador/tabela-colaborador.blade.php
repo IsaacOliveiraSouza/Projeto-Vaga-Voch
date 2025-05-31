@@ -1,4 +1,7 @@
 <div class="py-12 text-gray-900 dark:text-gray-100">
+            <x-primary-button wire:click="exportar">
+        {{ __('Exportar') }}
+    </x-primary-button>
     <x-select label="Grupo Econômico" placeholder="Selecione um grupo econômico" :async-data="route('grupo-economico.search')" option-label="nome"
         option-value="id" wire:model.live="grupoEconomicoId" multiselect />
     <x-select label="Unidade" placeholder="Selecione uma unidade" :async-data="route('unidade.search')" option-label="nome" option-value="id"
@@ -7,6 +10,7 @@
         option-value="id" wire:model.live="bandeiraId" multiselect />
     <x-select label="Colaborador" placeholder="Selecione um colaborador" :async-data="route('colaborador.search')" option-label="nome"
         option-value="id" wire:model.live="colaboradorId" multiselect />
+        
     @if (count($this->colaboradores) > 0)
 
         <table
