@@ -9,9 +9,9 @@ Este é um sistema completo para gestão de grupos econômicos, suas bandeiras, 
 - 🏬 CRUD completo de *Unidades* (associadas a Bandeiras)
 - 👥 CRUD completo de *Colaboradores* (associados a Unidades)
 - 📊 Sistema de *relatórios filtráveis* de colaboradores
-<!---- - 📁 Exportação de relatórios para *Excel*!-->
+- 📁 Exportação de relatórios para *Excel*
 - 🔐 *Autenticação de usuários*
-<!--- 🕵️ *Auditoria* completa (quem alterou, quando e o que)!-->
+- 🕵️ *Auditoria* completa (quem alterou, quando e o que)
 - ⚡ *Livewire 3* e *WireUI* para interações dinâmicas e responsivas
 - 🎨 Interface moderna e experiência do usuário aprimorada
 
@@ -24,8 +24,8 @@ Este é um sistema completo para gestão de grupos econômicos, suas bandeiras, 
 - 🔐 Laravel Breeze (autenticação)
 - 🐳 Laravel Sail (ambiente Docker)
 - 🗄️ MySQL
-<!-- - 📤 Laravel Excel (para exportação)
-- 📜 Laravel Activity Log (logs)!-->
+ - 📤 Laravel Excel (para exportação)
+- 📜 Laravel Activity Log (logs)
 
 ## 🚧 Instalação
 
@@ -89,7 +89,7 @@ bash
 bash
 ./vendor/bin/sail npm run dev
 
-<!-- 
+
 ## 📊 Relatórios
 
 Acesse o menu *"Colaboradores"*, clique em exportar para gerar uma tabela detalhada dos colaboradores com filtros por:
@@ -119,7 +119,6 @@ Para processar tarefas em segundo plano como exportações:
 bash
 ./vendor/bin/sail artisan queue:work
 
-!-->
 ---
 
 Desenvolvido por Isaac Oliveira Souza. 👨‍💻
